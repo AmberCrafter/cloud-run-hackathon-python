@@ -118,8 +118,9 @@ class Board:
             return 'R'
 
         # no enemy
-        movent = moves[random.randrange(len(moves))]
-        logger.info(f"[Fighting] Didn't find enemy, random move: {movent}")
+        # movent = moves[random.randrange(len(moves))]
+        movent = self.escape()
+        logger.info(f"[Fighting] Didn't find enemy, move: {movent}")
         return movent
     
     def random_move(self):
