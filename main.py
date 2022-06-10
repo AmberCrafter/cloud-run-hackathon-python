@@ -73,28 +73,28 @@ class Board:
             for i in range(1,4):
                 xx = self.player['x']
                 yy = self.player['y']-i
-                if (yy)<0: is_blocker=True
+                if (yy)<0: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
         
         if dir=='S':
             for i in range(1,4):
                 xx = self.player['x']
                 yy = self.player['y']+i
-                if (yy)>=self.height: is_blocker=True
+                if (yy)>=self.height: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
 
         if dir=='W':
             for i in range(1,4):
                 xx = self.player['x']-i
                 yy = self.player['y']
-                if (xx)<0: is_blocker=True
+                if (xx)<0: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
 
         if dir=='E':
             for i in range(1,4):
                 xx = self.player['x']+i
                 yy = self.player['y']
-                if (xx)>=self.width: is_blocker=True
+                if (xx)>=self.width: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
 
         return is_blocker
