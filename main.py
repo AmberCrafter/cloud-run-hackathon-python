@@ -136,11 +136,5 @@ def move():
     return board.fighting_mode()
 
 
-@app.route("/set_mode", methods=["GET"])
-def set_mode():
-    mode = request.values.get("mode")
-    MODE = mode
-    return f"Successful, set mode to {MODE}!"
-
 if __name__ == "__main__":
     app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
