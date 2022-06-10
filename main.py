@@ -138,19 +138,19 @@ class Board:
         
         # left side
         if not self.blocker_checker((campus.index(player_dir)+3)%4): 
-            logger.info(f"[escape] turn: {(campus.index(player_dir)+3)%4}\n Turn left!")
+            logger.info(f"[Escape] turn: {(campus.index(player_dir)+3)%4}\n Turn left!")
             return 'L'
 
         # right side
         if not self.blocker_checker((campus.index(player_dir)+5)%4): 
-            logger.info(f"[escape] turn: {(campus.index(player_dir)+5)%4}\n Right left!")
+            logger.info(f"[Escape] turn: {(campus.index(player_dir)+5)%4}\n Turn right!")
             return 'R'
 
         return self.fighting_mode()
 
     def next(self):
-        if self.player['hited']:
-            return self.escape()
+#         if self.player['hited']:
+#             return self.escape()
         return self.fighting_mode()
 
 def is_valid_request(ctx):
