@@ -106,6 +106,9 @@ class Board:
         logger.info(f"Didn't find enemy, random move: {movent}")
         return movent
 
+def is_valid_request(ctx):
+    if not MY_URL==ctx["_links"]["self"]["href"]: return False
+    return True
 
 @app.route("/", methods=['GET'])
 def index():
@@ -117,6 +120,10 @@ def move():
     logger.info(request.json)
 
     info = request.json
+
+    ## vailfied request
+    if not is_valid_request(info): return 'bed request!', 400
+
     # if isinstance(MY_URL, type(None)):
     #     MY_URL = info["_links"]["self"]["href"]
 
