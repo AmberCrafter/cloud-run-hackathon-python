@@ -147,7 +147,6 @@ class Board:
             return 'R'
 
         return self.fighting_mode()
-        # return self.random_move()
 
     def next(self):
         if self.player['hited']:
@@ -175,8 +174,13 @@ def move():
     arena = info["arena"]
     board = Board(arena["dims"], arena["state"])
     board.gen_board()
-
-    return board.next()
+    
+    try:
+        next_move = board.next()
+    except Exception as err:
+        logger.error(f"Fatal error: {err}")
+        return board.random_move()
+    return next_move
 
 if __name__ == "__main__":
     app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
