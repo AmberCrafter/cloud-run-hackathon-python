@@ -27,6 +27,8 @@ campus = ['N', 'E', 'S', 'W']
 # moves = ['F', 'T', 'L', 'R']
 moves = ['F', 'L', 'R']
 
+MODE = 'fighting'
+
 PRE_MOVE = None
 MY_URL = 'https://cloud-run-hackathon-python-gmlbzotaqa-uc.a.run.app'
 
@@ -88,22 +90,28 @@ class Board:
         player_dir = self.player['dir']
         # forward
         if self.enemy_checker(player_dir): 
-            logger.info(f"find enemy at: {player_dir}")
+            logger.info(f"[Fighting] find enemy at: {player_dir}")
             return 'T'
         
         # left side
         if self.enemy_checker((campus.index(player_dir)+3)%4): 
-            logger.info(f"find enemy at: {(campus.index(player_dir)+3)%4}\n Turn left!")
+            logger.info(f"[Fighting] find enemy at: {(campus.index(player_dir)+3)%4}\n Turn left!")
             return 'L'
 
         # right side
         if self.enemy_checker((campus.index(player_dir)+5)%4): 
-            logger.info(f"find enemy at: {(campus.index(player_dir)+5)%4}\n Right left!")
+            logger.info(f"[Fighting] find enemy at: {(campus.index(player_dir)+5)%4}\n Right left!")
             return 'R'
 
         # no enemy
         movent = moves[random.randrange(len(moves))]
-        logger.info(f"Didn't find enemy, random move: {movent}")
+        logger.info(f"[Fighting] Didn't find enemy, random move: {movent}")
+        return movent
+    
+    def random_move(self):
+        # no enemy
+        movent = moves[random.randrange(len(moves))]
+        logger.info(f"[Random Move] Random move: {movent}")
         return movent
 
 def is_valid_request(ctx):
@@ -124,15 +132,20 @@ def move():
     ## vailfied request
     if not is_valid_request(info): return 'bed request!', 400
 
-    # if isinstance(MY_URL, type(None)):
-    #     MY_URL = info["_links"]["self"]["href"]
-
     arena = info["arena"]
     board = Board(arena["dims"], arena["state"])
     board.gen_board()
 
-    return board.fighting_mode()
+    if MODE=='fighting':
+        return board.fighting_mode()
+    else:
+        return board.random_move()
+
+@app.route("/set_mode", methods=["GET"])
+def set_mode():
+    mode = request.values.get("mode")
+    MODE = mode
+    return f"Successful, set mode to {MODE}!"
 
 if __name__ == "__main__":
-  app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
-  
+    app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
