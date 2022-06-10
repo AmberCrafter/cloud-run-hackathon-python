@@ -27,9 +27,6 @@ campus = ['N', 'E', 'S', 'W']
 # moves = ['F', 'T', 'L', 'R']
 moves = ['F', 'L', 'R']
 
-MODE = 'fighting'
-
-PRE_MOVE = None
 MY_URL = 'https://cloud-run-hackathon-python-gmlbzotaqa-uc.a.run.app'
 
 class Board:
@@ -136,10 +133,8 @@ def move():
     board = Board(arena["dims"], arena["state"])
     board.gen_board()
 
-    if MODE=='fighting':
-        return board.fighting_mode()
-    else:
-        return board.random_move()
+    return board.fighting_mode()
+
 
 @app.route("/set_mode", methods=["GET"])
 def set_mode():
