@@ -146,7 +146,8 @@ class Board:
             logger.info(f"[escape] turn: {(campus.index(player_dir)+5)%4}\n Right left!")
             return 'R'
 
-        return self.random_move()
+        return self.fighting_mode()
+        # return self.random_move()
 
     def next(self):
         if self.player['hited']:
