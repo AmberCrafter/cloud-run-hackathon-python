@@ -84,22 +84,22 @@ class Board:
         return is_enemy
 
     def fighting_mode(self):
-        # select target
-        player_dir = self.player['dir']
-        # forward
-        if self.enemy_checker(player_dir): 
-            logger.info(f"find enemy at: {player_dir}")
-            return 'T'
+#         # select target
+#         player_dir = self.player['dir']
+#         # forward
+#         if self.enemy_checker(player_dir): 
+#             logger.info(f"find enemy at: {player_dir}")
+#             return 'T'
         
-        # left side
-        if self.enemy_checker((campus.index(player_dir)+3)%4): 
-            logger.info(f"find enemy at: {(campus.index(player_dir)+3)%4}\n Turn left!")
-            return 'L'
+#         # left side
+#         if self.enemy_checker((campus.index(player_dir)+3)%4): 
+#             logger.info(f"find enemy at: {(campus.index(player_dir)+3)%4}\n Turn left!")
+#             return 'L'
 
-        # right side
-        if self.enemy_checker((campus.index(player_dir)+5)%4): 
-            logger.info(f"find enemy at: {(campus.index(player_dir)+5)%4}\n Right left!")
-            return 'R'
+#         # right side
+#         if self.enemy_checker((campus.index(player_dir)+5)%4): 
+#             logger.info(f"find enemy at: {(campus.index(player_dir)+5)%4}\n Right left!")
+#             return 'R'
 
         # no enemy
         movent = moves[random.randrange(len(moves))]
