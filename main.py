@@ -110,6 +110,11 @@ class Board:
         movent = moves[random.randrange(len(moves))]
         logger.info(f"[Random Move] Random move: {movent}")
         return movent
+    
+    def next(self):
+        if self.player['hited']:
+            return self.random_move()
+        return self.fighting_mode()
 
 def is_valid_request(ctx):
     if not MY_URL==ctx["_links"]["self"]["href"]: return False
@@ -133,8 +138,7 @@ def move():
     board = Board(arena["dims"], arena["state"])
     board.gen_board()
 
-    return board.fighting_mode()
-
+    return board.next()
 
 if __name__ == "__main__":
     app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
