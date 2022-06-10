@@ -1,18 +1,3 @@
-
-# Copyright 2020 Google Inc. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import os
 import logging
 import random
@@ -82,6 +67,38 @@ class Board:
 
         return is_enemy
 
+    def blocker_checker(self,dir):
+        is_blocker = False
+        if dir=='N':
+            for i in range(1,4):
+                xx = self.player['x']
+                yy = self.player['y']-i
+                if (yy)<0: is_blocker=True
+                if self.board[yy][xx]==1: is_blocker=True
+        
+        if dir=='S':
+            for i in range(1,4):
+                xx = self.player['x']
+                yy = self.player['y']+i
+                if (yy)>=self.height: is_blocker=True
+                if self.board[yy][xx]==1: is_blocker=True
+
+        if dir=='W':
+            for i in range(1,4):
+                xx = self.player['x']-i
+                yy = self.player['y']
+                if (xx)<0: is_blocker=True
+                if self.board[yy][xx]==1: is_blocker=True
+
+        if dir=='E':
+            for i in range(1,4):
+                xx = self.player['x']+i
+                yy = self.player['y']
+                if (xx)>=self.width: is_blocker=True
+                if self.board[yy][xx]==1: is_blocker=True
+
+        return is_blocker
+
     def fighting_mode(self):
         # select target
         player_dir = self.player['dir']
@@ -111,9 +128,29 @@ class Board:
         logger.info(f"[Random Move] Random move: {movent}")
         return movent
     
+    def escape(self):
+        # select target
+        player_dir = self.player['dir']
+        # forward
+        if not self.blocker_checker(player_dir): 
+            logger.info(f"[Escape] move: {player_dir}")
+            return 'F'
+        
+        # left side
+        if not self.blocker_checker((campus.index(player_dir)+3)%4): 
+            logger.info(f"[escape] turn: {(campus.index(player_dir)+3)%4}\n Turn left!")
+            return 'L'
+
+        # right side
+        if not self.blocker_checker((campus.index(player_dir)+5)%4): 
+            logger.info(f"[escape] turn: {(campus.index(player_dir)+5)%4}\n Right left!")
+            return 'R'
+
+        return self.random_move()
+
     def next(self):
         if self.player['hited']:
-            return self.random_move()
+            return self.escape()
         return self.fighting_mode()
 
 def is_valid_request(ctx):
