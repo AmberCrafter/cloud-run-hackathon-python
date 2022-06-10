@@ -24,7 +24,8 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 campus = ['N', 'E', 'S', 'W']
-moves = ['F', 'T', 'L', 'R']
+# moves = ['F', 'T', 'L', 'R']
+moves = ['F', 'L', 'R']
 
 PRE_MOVE = None
 MY_URL = 'https://cloud-run-hackathon-python-gmlbzotaqa-uc.a.run.app'
@@ -86,16 +87,24 @@ class Board:
         # select target
         player_dir = self.player['dir']
         # forward
-        if self.enemy_checker(player_dir): return 'T'
+        if self.enemy_checker(player_dir): 
+            logger.info(f"find enemy at: {player_dir}")
+            return 'T'
         
         # left side
-        if self.enemy_checker((campus.index(player_dir)+3)%4): return 'L'
+        if self.enemy_checker((campus.index(player_dir)+3)%4): 
+            logger.info(f"find enemy at: {(campus.index(player_dir)+3)%4}\n Turn left!")
+            return 'L'
 
         # right side
-        if self.enemy_checker((campus.index(player_dir)+5)%4): return 'R'
+        if self.enemy_checker((campus.index(player_dir)+5)%4): 
+            logger.info(f"find enemy at: {(campus.index(player_dir)+5)%4}\n Right left!")
+            return 'R'
 
         # no enemy
-        return moves[random.randrange(len(moves))]
+        movent = moves[random.randrange(len(moves))]
+        logger.info(f"Didn't find enemy, random move: {movent}")
+        return movent
 
 
 @app.route("/", methods=['GET'])
