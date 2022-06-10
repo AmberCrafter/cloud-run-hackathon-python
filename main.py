@@ -67,31 +67,31 @@ class Board:
 
         return is_enemy
 
-    def blocker_checker(self,dir):
+    def blocker_checker(self,dir,dis):
         is_blocker = False
         if dir=='N':
-            for i in range(1,4):
+            for i in range(1,dis+1):
                 xx = self.player['x']
                 yy = self.player['y']-i
                 if (yy)<0: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
         
         if dir=='S':
-            for i in range(1,4):
+            for i in range(1,dis+1):
                 xx = self.player['x']
                 yy = self.player['y']+i
                 if (yy)>=self.height: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
 
         if dir=='W':
-            for i in range(1,4):
+            for i in range(1,dis+1):
                 xx = self.player['x']-i
                 yy = self.player['y']
                 if (xx)<0: is_blocker=True; break
                 if self.board[yy][xx]==1: is_blocker=True
 
         if dir=='E':
-            for i in range(1,4):
+            for i in range(1,dis+1):
                 xx = self.player['x']+i
                 yy = self.player['y']
                 if (xx)>=self.width: is_blocker=True; break
@@ -132,25 +132,25 @@ class Board:
         # select target
         player_dir = self.player['dir']
         # forward
-        if not self.blocker_checker(player_dir): 
+        if not self.blocker_checker(player_dir,1): 
             logger.info(f"[Escape] move: {player_dir}")
             return 'F'
         
         # left side
-        if not self.blocker_checker((campus.index(player_dir)+3)%4): 
-            logger.info(f"[Escape] turn: {(campus.index(player_dir)+3)%4}\n Turn left!")
+        if not self.blocker_checker(campus[(campus.index(player_dir)+3)%4],1): 
+            logger.info(f"[Escape] turn: {campus[(campus.index(player_dir)+3)%4]}\n Turn left!")
             return 'L'
 
         # right side
-        if not self.blocker_checker((campus.index(player_dir)+5)%4): 
-            logger.info(f"[Escape] turn: {(campus.index(player_dir)+5)%4}\n Turn right!")
+        if not self.blocker_checker(campus[(campus.index(player_dir)+5)%4],1): 
+            logger.info(f"[Escape] turn: {campus[(campus.index(player_dir)+5)%4]}\n Turn right!")
             return 'R'
 
         return self.fighting_mode()
 
     def next(self):
-#         if self.player['hited']:
-#             return self.escape()
+        if self.player['hited']:
+            return self.escape()
         return self.fighting_mode()
 
 def is_valid_request(ctx):
